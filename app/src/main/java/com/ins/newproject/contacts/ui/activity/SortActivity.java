@@ -1,4 +1,4 @@
-package com.ins.newproject.contacts;
+package com.ins.newproject.contacts.ui.activity;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
@@ -15,11 +16,11 @@ import com.ins.common.utils.FocusUtil;
 import com.ins.newproject.R;
 import com.ins.newproject.contacts.adapter.SortAdapter;
 import com.ins.newproject.contacts.bean.SortBean;
-import com.ins.newproject.contacts.common.SortStickTopItemDecoration;
+import com.ins.common.common.ItemDecorationSortStickTop;
 import com.ins.newproject.contacts.util.ColorUtil;
-import com.ins.newproject.contacts.util.CommonUtil;
-import com.ins.newproject.contacts.view.IndexBar;
-import com.ins.newproject.contacts.view.SideBar;
+import com.ins.newproject.contacts.util.SortUtil;
+import com.ins.common.view.IndexBar;
+import com.ins.common.view.SideBar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +31,7 @@ public class SortActivity extends AppCompatActivity implements View.OnClickListe
     private IndexBar index_bar;
     private RecyclerView recycler;
     private SortAdapter adapter;
-    private SortStickTopItemDecoration decoration;
+    private ItemDecorationSortStickTop decoration;
     private List<SortBean> results = new ArrayList<>();
     private LinearLayoutManager layoutManager;
 
@@ -54,14 +55,14 @@ public class SortActivity extends AppCompatActivity implements View.OnClickListe
     public void initCtrl() {
         adapter = new SortAdapter(this);
         recycler.setLayoutManager(layoutManager = new LinearLayoutManager(this));
-        recycler.addItemDecoration(decoration = new SortStickTopItemDecoration(this, ColorUtil.colors));
+        recycler.addItemDecoration(decoration = new ItemDecorationSortStickTop(this, ColorUtil.colors));
         recycler.setAdapter(adapter);
 
         index_bar.setColors(ColorUtil.colors);
         index_bar.addOnIndexChangeListener(new SideBar.OnIndexChangeListener() {
             @Override
             public void onIndexChanged(float centerY, String tag, int position) {
-                int pos = CommonUtil.getPosByTag(results, tag);
+                int pos = SortUtil.getPosByTag(results, tag);
                 if (pos != -1) layoutManager.scrollToPositionWithOffset(pos, 0);
             }
         });
@@ -110,9 +111,9 @@ public class SortActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void freshData(List<SortBean> results) {
-        CommonUtil.sortData(results);
-        String tagsStr = CommonUtil.getTags(results);
-        List<String> tagsArr = CommonUtil.getTagsArr(results);
+        SortUtil.sortData(results);
+        String tagsStr = SortUtil.getTags(results);
+        List<String> tagsArr = SortUtil.getTagsArr(results);
         index_bar.setIndexStr(tagsStr);
         decoration.setTags(tagsArr);
         adapter.getResults().clear();
@@ -123,7 +124,7 @@ public class SortActivity extends AppCompatActivity implements View.OnClickListe
     public void search(String filterStr) {
         List<SortBean> resultsSort = new ArrayList<>();
         for (SortBean sortBean : results) {
-            if (CommonUtil.match(sortBean, filterStr)) {
+            if (SortUtil.match(sortBean, filterStr)) {
                 resultsSort.add(sortBean);
             }
         }

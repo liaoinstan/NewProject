@@ -14,7 +14,7 @@ import android.widget.Toast;
 import com.google.gson.reflect.TypeToken;
 import com.ins.common.entity.Image;
 import com.ins.common.net.NetApi;
-import com.ins.newproject.contacts.SortActivity;
+import com.ins.newproject.contacts.ui.activity.SortActivity;
 
 import java.util.HashMap;
 import java.util.List;

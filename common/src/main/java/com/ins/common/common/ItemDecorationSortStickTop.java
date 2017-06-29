@@ -1,4 +1,4 @@
-package com.ins.newproject.contacts.common;
+package com.ins.common.common;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -25,7 +25,7 @@ import java.util.List;
  * 那么如上集合在position 为 0,3,5 的位置上方分别有 A,B,C 的粘性顶部
  */
 
-public class SortStickTopItemDecoration extends RecyclerView.ItemDecoration {
+public class ItemDecorationSortStickTop extends RecyclerView.ItemDecoration {
     private Paint mPaint;
     private List<String> tags;
     private int dividerHeight = 80;
@@ -56,11 +56,11 @@ public class SortStickTopItemDecoration extends RecyclerView.ItemDecoration {
         return 0;
     }
 
-    public SortStickTopItemDecoration(Context context) {
+    public ItemDecorationSortStickTop(Context context) {
         this(context, null);
     }
 
-    public SortStickTopItemDecoration(Context context, List<Integer> colors) {
+    public ItemDecorationSortStickTop(Context context, List<Integer> colors) {
         this.mContext = context;
         if (colors != null) {
             this.colors = colors;

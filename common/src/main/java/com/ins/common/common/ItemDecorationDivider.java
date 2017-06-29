@@ -15,7 +15,7 @@ import android.view.View;
  * Created by liaoinstan on 2016/4/12.
  * 自定义分割线，用于RecyclerView
  */
-public class DividerItemDecoration extends RecyclerView.ItemDecoration {
+public class ItemDecorationDivider extends RecyclerView.ItemDecoration {
 
     private static final int[] ATTRS = new int[]{
             android.R.attr.listDivider
@@ -30,15 +30,15 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration {
 
     private int mOrientation;
 
-    public DividerItemDecoration(Context context){
+    public ItemDecorationDivider(Context context){
         this(context,VERTICAL_LIST, Color.parseColor("#11999999"));
     }
 
-    public DividerItemDecoration(Context context, int orientation){
+    public ItemDecorationDivider(Context context, int orientation){
         this(context,orientation, Color.parseColor("#11999999"));
     }
 
-    public DividerItemDecoration(Context context, int orientation , int color) {
+    public ItemDecorationDivider(Context context, int orientation , int color) {
         final TypedArray a = context.obtainStyledAttributes(ATTRS);
         mDivider = new ColorDrawable(color);
         a.recycle();

@@ -1,4 +1,4 @@
-package com.ins.newproject.contacts.view;
+package com.ins.common.view;
 
 import android.content.Context;
 import android.graphics.Canvas;

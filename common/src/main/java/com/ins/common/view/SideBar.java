@@ -4,138 +4,214 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.drawable.ColorDrawable;
+import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.TextView;
 
-import com.ins.common.R;
 import com.ins.common.utils.DensityUtil;
 
+import java.util.ArrayList;
+import java.util.List;
+
+
+/**
+ * liaoinstan
+ * 侧边栏（筛选A-Z条目，快速定位列表位置）
+ * SideBar只提供A-Z条目的选择和处理对应事件，具体选择后的表现，由外部处理，通过添加OnIndexChangeListener可以捕获SideBar的事件回调
+ * <p>
+ * 一般和{@link IndexBar}连用，IndexBar实现了UI展示层的外部逻辑
+ * 如果对UI效果有定制要求，可直接使用SideBar
+ */
 
 public class SideBar extends View {
-	private Context context;
 
-	// 触摸事件
-	private OnTouchingLetterChangedListener onTouchingLetterChangedListener;
-	// 26个字母
-	public static String[] b = { "A", "B", "C", "D", "E", "F", "G", "H", "I",
-			"J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V",
-			"W", "X", "Y", "Z", "#" };
-	private int choose = -1;// 选中
-	private Paint paint = new Paint();
+    private int height;
+    private int width;
+    private Paint paint;
+    private int singleHeight;
+    private Context context;
+    private int MARGIN_BOTTOM = 10;
+    private int MARGIN_TOP = 10;
+    private String indexStr = "ABCDEFGHIJKLMNOPQRSTUVWXY#";
+    private int currentPosition = -1;
 
-	private TextView mTextDialog;
+    //可配置项
+    private int colorText = Color.parseColor("#77000000");          //文字颜色
+    private int colorTextHot = Color.parseColor("#fff08519");       //文字选中状态颜色
+    private int colorBk = Color.parseColor("#00000000");             //背景色
+    private int colorBkHot = Color.parseColor("#10000000");         //背景选中时颜色
 
-	public void setTextView(TextView mTextDialog) {
-		this.mTextDialog = mTextDialog;
-	}
+    public SideBar(Context context) {
+        this(context, null);
+    }
 
+    public SideBar(Context context, @Nullable AttributeSet attrs) {
+        this(context, attrs, 0);
+    }
 
-	public SideBar(Context context, AttributeSet attrs, int defStyle) {
-		super(context, attrs, defStyle);
-		this.context = context;
-	}
+    public SideBar(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+        this.context = context;
+        init();
+    }
 
-	public SideBar(Context context, AttributeSet attrs) {
-		super(context, attrs);
-		this.context = context;
-	}
+    private void init() {
+        paint = new Paint();
+        paint.setDither(true);
+        paint.setAntiAlias(true);
+        paint.setColor(colorText);
+        paint.setTextSize(35);
+    }
 
-	public SideBar(Context context) {
-		super(context);
-		this.context = context;
-	}
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+    }
 
-	/**
-	 * 重写这个方法
-	 */
-	protected void onDraw(Canvas canvas) {
-		super.onDraw(canvas);
-		// 获取焦点改变背景颜色.
-		int height = getHeight();// 获取对应高度
-		int width = getWidth(); // 获取对应宽度
-		int singleHeight = height / b.length;// 获取每一个字母的高度
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+        //根据总高度计算上下边距（越高边距越大，越挤边距越小）
+        //经过大量测试，上下边距取总高度的10%是比较合理的，但是弹出输入法后挤压页面依然有细微的文件重叠，这个规则还有待优化
+        MARGIN_BOTTOM = (int) (DensityUtil.px2dp(context, h) / 10);
+        MARGIN_TOP = MARGIN_BOTTOM;
+        //导航栏居中显示，减去上下边距
+        width = w;
+        height = h - DensityUtil.dp2px(context, MARGIN_BOTTOM + MARGIN_TOP);
+        singleHeight = height / indexStr.length();
+    }
 
-		for (int i = 0; i < b.length; i++) {
-//			paint.setColor(Color.rgb(33, 65, 98));
-			paint.setColor(Color.parseColor("#77000000"));
-//			paint.setTypeface(Typeface.DEFAULT_BOLD);
-			paint.setAntiAlias(true);
-			paint.setTextSize(DensityUtil.sp2px(context,10));
-			// 选中的状态
-			if (i == choose) {
-				paint.setColor(Color.parseColor("#fff08519"));
-				paint.setFakeBoldText(true);
-			}
-			// x坐标等于中间-字符串宽度的一半.
-			float xPos = width / 2 - paint.measureText(b[i]) / 2;
-			float yPos = singleHeight * i + singleHeight;
-			canvas.drawText(b[i], xPos, yPos, paint);
-			paint.reset();// 重置画笔
-		}
+    @Override
+    protected void onDraw(Canvas canvas) {
+        for (int i = 0; i < indexStr.length(); i++) {
+            if (i == currentPosition) {
+                paint.setColor(colorTextHot);
+            } else {
+                paint.setColor(colorText);
+            }
+            String textTag = indexStr.substring(i, i + 1);
+            float xPos = (width - paint.measureText(textTag)) / 2;
+            canvas.drawText(textTag, xPos, singleHeight * (i + 1) + DensityUtil.dp2px(context, MARGIN_TOP), paint);
+        }
+    }
 
-	}
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                setBackgroundColor(colorBkHot);
+                invalidate();
+                callOnActionDown();
+            case MotionEvent.ACTION_MOVE:
+                //滑动 event.getY()得到在父View中的Y坐标，通过和总高度的比例再乘以字符个数总长度得到按下的位置
+                currentPosition = (int) ((event.getY() - getTop() - DensityUtil.dp2px(context, MARGIN_TOP)) / height * indexStr.toCharArray().length);
+                if (currentPosition >= 0 && currentPosition < indexStr.length()) {
+                    invalidate();
+                    String tag = String.valueOf(indexStr.toCharArray()[currentPosition]);
+                    callOnIndexChanged(event.getY(), tag, currentPosition);
+                }
+                break;
+            case MotionEvent.ACTION_UP:
+                setBackgroundColor(colorBk);
+                currentPosition = -1;
+                invalidate();
+                callOnActionUp();
+                break;
+        }
+        return true;
+    }
 
-	@Override
-	public boolean dispatchTouchEvent(MotionEvent event) {
-		final int action = event.getAction();
-		final float y = event.getY();// 点击y坐标
-		final int oldChoose = choose;
-		final OnTouchingLetterChangedListener listener = onTouchingLetterChangedListener;
-		final int c = (int) (y / getHeight() * b.length);// 点击y坐标所占总高度的比例*b数组的长度就等于点击b中的个数.
+    //################## 接口回调 ####################
 
-		switch (action) {
-		case MotionEvent.ACTION_UP:
-			setBackgroundDrawable(new ColorDrawable(0x00000000));
-			choose = -1;//
-			invalidate();
-			if (mTextDialog != null) {
-				mTextDialog.setVisibility(View.INVISIBLE);
-			}
-			break;
+    private void callOnIndexChanged(float centerY, String tag, int position) {
+        if (listeners != null) {
+            for (OnIndexChangeListener listener : listeners) {
+                listener.onIndexChanged(centerY, tag, position);
+            }
+        }
+    }
 
-		default:
-			setBackgroundResource(R.drawable.sort_sidebar_background);
-			if (oldChoose != c) {
-				if (c >= 0 && c < b.length) {
-					if (listener != null) {
-						listener.onTouchingLetterChanged(b[c]);
-					}
-					if (mTextDialog != null) {
-						mTextDialog.setText(b[c]);
-						mTextDialog.setVisibility(View.VISIBLE);
-					}
-					
-					choose = c;
-					invalidate();
-				}
-			}
+    private void callOnActionUp() {
+        if (listeners != null) {
+            for (OnIndexChangeListener listener : listeners) {
+                if (listener instanceof OnIndexChangeListenerEx) {
+                    ((OnIndexChangeListenerEx) listener).onActionUp();
+                }
+            }
+        }
+    }
 
-			break;
-		}
-		return true;
-	}
+    private void callOnActionDown() {
+        if (listeners != null) {
+            for (OnIndexChangeListener listener : listeners) {
+                if (listener instanceof OnIndexChangeListenerEx) {
+                    ((OnIndexChangeListenerEx) listener).onActionDown();
+                }
+            }
+        }
+    }
 
-	/**
-	 * 向外公开的方法
-	 * 
-	 * @param onTouchingLetterChangedListener
-	 */
-	public void setOnTouchingLetterChangedListener(
-			OnTouchingLetterChangedListener onTouchingLetterChangedListener) {
-		this.onTouchingLetterChangedListener = onTouchingLetterChangedListener;
-	}
+    //################### 对外方法 ####################
 
-	/**
-	 * 接口
-	 * 
-	 * @author coder
-	 * 
-	 */
-	public interface OnTouchingLetterChangedListener {
-		public void onTouchingLetterChanged(String s);
-	}
+    public void setIndexStr(String indexStr) {
+        if (TextUtils.isEmpty(indexStr)) return;
+        this.indexStr = indexStr;
+        singleHeight = height / indexStr.length();
+        invalidate();
+    }
+
+    //################## get & set ####################
+
+    public int getColorText() {
+        return colorText;
+    }
+
+    public void setColorText(int colorText) {
+        this.colorText = colorText;
+    }
+
+    public int getColorTextHot() {
+        return colorTextHot;
+    }
+
+    public void setColorTextHot(int colorTextHot) {
+        this.colorTextHot = colorTextHot;
+    }
+
+    public int getColorBk() {
+        return colorBk;
+    }
+
+    public void setColorBk(int colorBk) {
+        this.colorBk = colorBk;
+    }
+
+    public int getColorBkHot() {
+        return colorBkHot;
+    }
+
+    public void setColorBkHot(int colorBkHot) {
+        this.colorBkHot = colorBkHot;
+    }
+
+    //################## 对外接口 ####################
+
+    private List<OnIndexChangeListener> listeners = new ArrayList();
+
+    public interface OnIndexChangeListener {
+        void onIndexChanged(float centerY, String tag, int position);
+    }
+
+    public interface OnIndexChangeListenerEx extends OnIndexChangeListener {
+        void onActionDown();
+
+        void onActionUp();
+    }
+
+    public void addOnIndexChangeListener(OnIndexChangeListener listener) {
+        this.listeners.add(listener);
+    }
 
 }

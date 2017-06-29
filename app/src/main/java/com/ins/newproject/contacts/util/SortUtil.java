@@ -1,7 +1,5 @@
 package com.ins.newproject.contacts.util;
 
-import android.view.View;
-
 import com.github.promeg.pinyinhelper.Pinyin;
 import com.ins.common.common.CharacterParser;
 import com.ins.common.utils.StrUtil;
@@ -16,17 +14,7 @@ import java.util.List;
  * Created by MQ on 2017/5/3.
  */
 
-public class CommonUtil {
-    /**
-     * 测量View的宽高
-     *
-     * @param view View
-     */
-    public static void measureWidthAndHeight(View view) {
-        int w = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
-        int h = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
-        view.measure(w, h);
-    }
+public class SortUtil {
 
     /**
      * 对数据进行排序
