@@ -9,7 +9,9 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.ins.common.utils.DensityUtil;
-import com.ins.newproject.contacts.util.ColorUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -32,6 +34,19 @@ public class IndexBar extends ViewGroup {
     //可配置项
     private float circleRadius = 40;
     private float textSize = 33;
+    //一组默认颜色，用于滑动时显示，可以设置setColors()
+    private List<Integer> colors = new ArrayList<Integer>() {{
+        add(Color.parseColor("#EC5745"));
+        add(Color.parseColor("#377caf"));
+        add(Color.parseColor("#4ebcd3"));
+        add(Color.parseColor("#6fb30d"));
+        add(Color.parseColor("#FFA500"));
+        add(Color.parseColor("#bf9e5a"));
+    }};
+
+    private int getColor(int seed) {
+        return colors.get(seed % colors.size());
+    }
 
     public IndexBar(Context context) {
         this(context, null);
@@ -144,6 +159,7 @@ public class IndexBar extends ViewGroup {
 
     /**
      * 通过标志位来控制是否来显示圆
+     *
      * @param isShowTag 是否显示圆
      */
     private void setTagStatus(boolean isShowTag) {
@@ -156,7 +172,7 @@ public class IndexBar extends ViewGroup {
         super.onDraw(canvas);
         if (isShowTag) {
             //根据位置来不断变换Paint的颜色
-            ColorUtil.setPaintColor(mPaint, position);
+            mPaint.setColor(getColor(position));
             //绘制圆和文字
             canvas.drawCircle((mWidth - childWidth) / 2, centerY, DensityUtil.dp2px(context, circleRadius), mPaint);
             mPaint.setColor(Color.WHITE);
@@ -199,6 +215,13 @@ public class IndexBar extends ViewGroup {
         this.textSize = textSize;
     }
 
+    public List<Integer> getColors() {
+        return colors;
+    }
+
+    public void setColors(List<Integer> colors) {
+        this.colors = colors;
+    }
 
     //################## sideBar 代理方法 ####################
 

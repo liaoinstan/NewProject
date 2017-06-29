@@ -6,13 +6,17 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
+import android.widget.EditText;
 
 import com.ins.common.utils.FocusUtil;
 import com.ins.newproject.R;
-import com.ins.newproject.contacts.adapter.ContactAdapter;
-import com.ins.newproject.contacts.common.CustomItemDecoration;
+import com.ins.newproject.contacts.adapter.SortAdapter;
+import com.ins.newproject.contacts.bean.SortBean;
+import com.ins.newproject.contacts.common.SortStickTopItemDecoration;
+import com.ins.newproject.contacts.util.ColorUtil;
 import com.ins.newproject.contacts.util.CommonUtil;
 import com.ins.newproject.contacts.view.IndexBar;
 import com.ins.newproject.contacts.view.SideBar;
@@ -20,13 +24,14 @@ import com.ins.newproject.contacts.view.SideBar;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ContactsActivity extends AppCompatActivity implements View.OnClickListener {
+public class SortActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private RecyclerView recycler;
-    private ContactAdapter adapter;
-    private CustomItemDecoration decoration;
+    private EditText edit_query;
     private IndexBar index_bar;
-    private List<ContactBean> results = new ArrayList<>();
+    private RecyclerView recycler;
+    private SortAdapter adapter;
+    private SortStickTopItemDecoration decoration;
+    private List<SortBean> results = new ArrayList<>();
     private LinearLayoutManager layoutManager;
 
     @Override
@@ -39,6 +44,7 @@ public class ContactsActivity extends AppCompatActivity implements View.OnClickL
     }
 
     public void initView() {
+        edit_query = (EditText) findViewById(R.id.edit_query);
         index_bar = (IndexBar) findViewById(R.id.index_bar);
         recycler = (RecyclerView) findViewById(R.id.rl_recycle_view);
         findViewById(R.id.btn_right).setOnClickListener(this);
@@ -46,22 +52,32 @@ public class ContactsActivity extends AppCompatActivity implements View.OnClickL
     }
 
     public void initCtrl() {
-        adapter = new ContactAdapter(this);
+        adapter = new SortAdapter(this);
         recycler.setLayoutManager(layoutManager = new LinearLayoutManager(this));
-        recycler.addItemDecoration(decoration = new CustomItemDecoration(this));
+        recycler.addItemDecoration(decoration = new SortStickTopItemDecoration(this, ColorUtil.colors));
         recycler.setAdapter(adapter);
 
+        index_bar.setColors(ColorUtil.colors);
         index_bar.addOnIndexChangeListener(new SideBar.OnIndexChangeListener() {
             @Override
             public void onIndexChanged(float centerY, String tag, int position) {
-                if (TextUtils.isEmpty(tag) || results.size() <= 0) return;
-                for (int i = 0; i < results.size(); i++) {
-                    if (tag.equals(results.get(i).getIndexTag())) {
-                        layoutManager.scrollToPositionWithOffset(i, 0);
-//                        layoutManager.scrollToPosition(i);
-                        return;
-                    }
-                }
+                int pos = CommonUtil.getPosByTag(results, tag);
+                if (pos != -1) layoutManager.scrollToPositionWithOffset(pos, 0);
+            }
+        });
+
+        edit_query.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                search(s.toString());
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
             }
         });
     }
@@ -76,19 +92,11 @@ public class ContactsActivity extends AppCompatActivity implements View.OnClickL
                         "李元芳", "张飞", "刘备", "牛魔", "张良", "兰陵王", "露娜", "貂蝉", "达摩", "曹操", "芈月", "荆轲", "高渐离",
                         "钟馗", "花木兰", "关羽", "李白", "宫本武藏", "吕布", "嬴政", "娜可露露", "武则天", "赵云", "姜子牙",};
                 for (String name : names) {
-                    ContactBean bean = new ContactBean();
+                    SortBean bean = new SortBean();
                     bean.setName(name);
                     results.add(bean);
                 }
-                //对数据源进行排序
-                CommonUtil.sortData(results);
-                //返回一个包含所有Tag字母在内的字符串并赋值给tagsStr
-                String tagsStr = CommonUtil.getTags(results);
-                index_bar.setIndexStr(tagsStr);
-                decoration.setDatas(results, tagsStr);
-                adapter.getResults().clear();
-                adapter.getResults().addAll(results);
-                adapter.notifyDataSetChanged();
+                freshData(results);
             }
         }, 1000);
     }
@@ -97,22 +105,28 @@ public class ContactsActivity extends AppCompatActivity implements View.OnClickL
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_right:
-                add();
                 break;
         }
     }
 
-    public void add() {
-        ContactBean bean = new ContactBean();
-        bean.setName("安其拉666");
-        results.add(bean);
-        //对数据源进行排序
+    private void freshData(List<SortBean> results) {
         CommonUtil.sortData(results);
-        //返回一个包含所有Tag字母在内的字符串并赋值给tagsStr
         String tagsStr = CommonUtil.getTags(results);
+        List<String> tagsArr = CommonUtil.getTagsArr(results);
         index_bar.setIndexStr(tagsStr);
-        decoration.setDatas(results, tagsStr);
-        //这里写死位置1 只是为了看动画效果
-        adapter.add(bean, 1);
+        decoration.setTags(tagsArr);
+        adapter.getResults().clear();
+        adapter.getResults().addAll(results);
+        adapter.notifyDataSetChanged();
+    }
+
+    public void search(String filterStr) {
+        List<SortBean> resultsSort = new ArrayList<>();
+        for (SortBean sortBean : results) {
+            if (CommonUtil.match(sortBean, filterStr)) {
+                resultsSort.add(sortBean);
+            }
+        }
+        freshData(resultsSort);
     }
 }

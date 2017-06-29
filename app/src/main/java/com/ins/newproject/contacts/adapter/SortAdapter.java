@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
 import com.ins.newproject.R;
-import com.ins.newproject.contacts.ContactBean;
+import com.ins.newproject.contacts.bean.SortBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,23 +21,27 @@ import java.util.List;
  * Created by MQ on 2017/5/8.
  */
 
-public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.MyRecycleHolder> {
+public class SortAdapter extends RecyclerView.Adapter<SortAdapter.MyRecycleHolder> {
 
-    private List<ContactBean> results;
+    private List<SortBean> results;
     private Context context;
     private ColorGenerator mColorGenerator = ColorGenerator.MATERIAL;
     private TextDrawable.IBuilder mDrawableBuilder = TextDrawable.builder().round();
 
-    public List<ContactBean> getResults() {
+    public List<SortBean> getResults() {
         return results;
     }
 
-    public ContactAdapter(Context context) {
+    public SortAdapter(Context context) {
         this.context = context;
         results = new ArrayList<>();
     }
 
-    public void add(ContactBean bean, int position) {
+    public void addAll(List<SortBean> results){
+        results.addAll(results);
+    }
+
+    public void add(SortBean bean, int position) {
         results.add(position, bean);
         notifyItemInserted(position);
     }
@@ -52,13 +56,18 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.MyRecycl
     public void onBindViewHolder(MyRecycleHolder holder, int position) {
         if (results == null || results.size() == 0 || results.size() <= position)
             return;
-        ContactBean bean = results.get(position);
+        SortBean bean = results.get(position);
         if (bean != null) {
-            holder.tv_name.setText(bean.getName());
+            holder.tv_name.setText(bean.getNameSmart());
             TextDrawable drawable = mDrawableBuilder.build(String.valueOf(bean.getName().charAt(0)), mColorGenerator.getColor(bean.getName()));
             holder.iv_img.setImageDrawable(drawable);
         }
     }
+
+//    @Override
+//    public void onBindViewHolder(MyRecycleHolder holder, int position, List<Object> payloads) {
+//        super.onBindViewHolder(holder, position, payloads);
+//    }
 
     @Override
     public int getItemCount() {

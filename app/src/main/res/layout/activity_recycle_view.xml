@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".contacts.ContactsActivity">
+    tools:context=".contacts.SortActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -25,6 +25,7 @@
     </android.support.v7.widget.Toolbar>
 
     <EditText
+        android:id="@+id/edit_query"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:background="#ff0000"
@@ -42,24 +43,12 @@
             android:layout_height="match_parent"
             android:background="@color/white" />
 
-        <LinearLayout
-            android:layout_gravity="right"
-            android:layout_width="wrap_content"
+        <com.ins.newproject.contacts.view.IndexBar
+            android:id="@+id/index_bar"
+            android:layout_width="200dp"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <com.ins.newproject.contacts.view.IndexBar
-                android:id="@+id/index_bar"
-                android:layout_width="200dp"
-                android:layout_height="match_parent"
-                android:background="#00000000"/>
-
-            <!--<com.ins.newproject.contacts.view.SideBar-->
-                <!--android:id="@+id/side_bar"-->
-                <!--android:layout_width="30dp"-->
-                <!--android:layout_height="match_parent" />-->
-
-        </LinearLayout>
+            android:layout_gravity="right"
+            android:background="#00000000" />
 
     </FrameLayout>
 

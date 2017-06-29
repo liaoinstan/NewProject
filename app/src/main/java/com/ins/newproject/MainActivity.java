@@ -14,8 +14,7 @@ import android.widget.Toast;
 import com.google.gson.reflect.TypeToken;
 import com.ins.common.entity.Image;
 import com.ins.common.net.NetApi;
-import com.ins.common.utils.PermissionsUtil;
-import com.ins.newproject.contacts.ContactsActivity;
+import com.ins.newproject.contacts.SortActivity;
 
 import java.util.HashMap;
 import java.util.List;
@@ -67,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
                 return true;
             case R.id.action_contact:
-                intent.setClass(this, ContactsActivity.class);
+                intent.setClass(this, SortActivity.class);
                 startActivity(intent);
                 return true;
         }

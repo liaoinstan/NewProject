@@ -3,39 +3,33 @@ package com.ins.newproject.contacts.util;
 import android.graphics.Color;
 import android.graphics.Paint;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by MQ on 2017/5/18.
  */
 
 public class ColorUtil {
+
+    //预设颜色列表，可随意添加，颜色越多重复几率越小
+    public static List<Integer> colors = new ArrayList<Integer>() {{
+        add(Color.parseColor("#EC5745"));
+        add(Color.parseColor("#377caf"));
+        add(Color.parseColor("#4ebcd3"));
+        add(Color.parseColor("#6fb30d"));
+        add(Color.parseColor("#FFA500"));
+        add(Color.parseColor("#bf9e5a"));
+    }};
+
     /**
-     * 根据数据位置来给Paint循环设置颜色
-     *
-     * @param mPaint   Paint
-     * @param position position
+     * 使用种子获取一个伪随机颜色
      */
-    public static void setPaintColor(Paint mPaint, int position) {
-        int pos = position % 6;
-        switch (pos) {
-            case 0:
-                mPaint.setColor(Color.parseColor("#EC5745"));
-                break;
-            case 1:
-                mPaint.setColor(Color.parseColor("#377caf"));
-                break;
-            case 2:
-                mPaint.setColor(Color.parseColor("#4ebcd3"));
-                break;
-            case 3:
-                mPaint.setColor(Color.parseColor("#6fb30d"));
-                break;
-            case 4:
-                mPaint.setColor(Color.parseColor("#FFA500"));
-                break;
-            case 5:
-                mPaint.setColor(Color.parseColor("#bf9e5a"));
-                break;
-        }
+    public static int getRandomColorBySeed(int seed) {
+//        Random random = new Random(seed);
+//        int i = random.nextInt(colors.size());
+//        return colors.get(i);
+        return colors.get(seed % colors.size());
     }
 }
 

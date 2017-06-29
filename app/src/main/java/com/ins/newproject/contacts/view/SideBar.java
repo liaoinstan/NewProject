@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -18,6 +19,10 @@ import java.util.List;
 /**
  * liaoinstan
  * 侧边栏（筛选A-Z条目，快速定位列表位置）
+ * SideBar只提供A-Z条目的选择和处理对应事件，具体选择后的表现，由外部处理，通过添加OnIndexChangeListener可以捕获SideBar的事件回调
+ * <p>
+ * 一般和{@link IndexBar}连用，IndexBar实现了UI展示层的外部逻辑
+ * 如果对UI效果有定制要求，可直接使用SideBar
  */
 
 public class SideBar extends View {
@@ -151,6 +156,7 @@ public class SideBar extends View {
     //################### 对外方法 ####################
 
     public void setIndexStr(String indexStr) {
+        if (TextUtils.isEmpty(indexStr)) return;
         this.indexStr = indexStr;
         singleHeight = height / indexStr.length();
         invalidate();

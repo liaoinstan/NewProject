@@ -20,7 +20,7 @@
         android:layout_height="60dp"
         android:layout_marginLeft="20dp"
         android:gravity="center_vertical"
-        android:text="电话号码"
+        android:text="name"
         android:textSize="16sp" />
 
 </LinearLayout>
