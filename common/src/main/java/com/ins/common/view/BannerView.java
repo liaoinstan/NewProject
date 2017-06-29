@@ -195,12 +195,10 @@ public class BannerView extends FrameLayout implements Runnable {
 
             if ("default".equals(images.get(position).getImg())){
                 imageView.setScaleType(ImageView.ScaleType.CENTER);
-                imageView.setImageResource(R.drawable.default_banner);
+                imageView.setImageResource(R.drawable.default_pic);
             }else {
                 imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 //绑定网络图片
-//            x.image().bind(imageView, images.get(position).getImg(), new CustomBitmapLoadCallBack(imageView));
-                //Glide.with(context).load(images.get(position).getImg()).placeholder(R.drawable.default_bk).crossFade().into(imageView);
                 if (onLoadImgListener!=null){
                     onLoadImgListener.onloadImg(imageView,images.get(position).getImg(),R.drawable.default_bk);
                 }

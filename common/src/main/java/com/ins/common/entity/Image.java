@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 /**
  * Created by liaoinstan on 15/9/2.
- * BannerView需要的一个实体类，可以考虑放在BannerView作为一个内部类，不要让它参与网络数据的转换，否则你的混淆配置又要加入这写实体类了
+ * BannerView需要的一个实体类，可以考虑放在BannerView作为一个内部类，不要让它参与网络数据的转换，否则你的混淆配置又要加入这些实体类了
  */
 public class Image implements Serializable {
 

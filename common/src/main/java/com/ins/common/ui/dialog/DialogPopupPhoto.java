@@ -11,12 +11,9 @@ import android.widget.TextView;
 
 import com.ins.common.R;
 
-
 /**
- * @author liaoinstan
- * @Function: 自定义对话框
- * @Date: 2013-10-28
- * @Time: 下午12:37:43
+ * liaoinstan
+ * 选择照片或拍照弹窗
  */
 public class DialogPopupPhoto extends Dialog {
     private TextView text_cancel, text_photo, text_camera;
@@ -55,19 +52,8 @@ public class DialogPopupPhoto extends Dialog {
         super.show();
     }
 
-//    /**
-//     * 取消键监听器
-//     *
-//     * @param listener
-//     */
-//    public void setOnCancelListener(View.OnClickListener listener) {
-//        text_cancel.setOnClickListener(listener);
-//    }
-
     /**
      * 相册键监听器
-     *
-     * @param listener
      */
     public void setOnPhotoListener(View.OnClickListener listener) {
         text_photo.setOnClickListener(listener);
@@ -75,13 +61,14 @@ public class DialogPopupPhoto extends Dialog {
 
     /**
      * 相机键监听器
-     *
-     * @param listener
      */
     public void setOnCameraListener(View.OnClickListener listener) {
         text_camera.setOnClickListener(listener);
     }
 
+    /**
+     * 取消监听，不光取消按钮，点击外部，返回键等一切导致dialog消失的操作都会回调这个监听
+     */
     @Override
     public void setOnCancelListener(final OnCancelListener listener) {
         super.setOnCancelListener(listener);

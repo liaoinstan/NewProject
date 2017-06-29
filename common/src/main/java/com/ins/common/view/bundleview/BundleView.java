@@ -52,7 +52,7 @@ public class BundleView extends FrameLayout {
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
-        root = (ViewGroup) inflater.inflate(R.layout.bundle2, this, true);
+        root = (ViewGroup) inflater.inflate(R.layout.bundle, this, true);
         initBase();
         initView();
         initCtrl();

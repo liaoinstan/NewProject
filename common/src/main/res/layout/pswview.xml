@@ -33,7 +33,7 @@
             android:layout_width="14dp"
             android:layout_height="14dp"
             android:layout_gravity="center"
-            android:src="@drawable/img_psw_bg"
+            android:src="@drawable/psw_dot"
             android:visibility="invisible" />
 
     </FrameLayout>
@@ -67,7 +67,7 @@
             android:layout_width="14dp"
             android:layout_height="14dp"
             android:layout_gravity="center"
-            android:src="@drawable/img_psw_bg"
+            android:src="@drawable/psw_dot"
             android:visibility="invisible" />
 
     </FrameLayout>
@@ -103,7 +103,7 @@
             android:layout_width="14dp"
             android:layout_height="14dp"
             android:layout_gravity="center"
-            android:src="@drawable/img_psw_bg"
+            android:src="@drawable/psw_dot"
             android:visibility="invisible" />
 
     </FrameLayout>
@@ -138,7 +138,7 @@
             android:layout_width="14dp"
             android:layout_height="14dp"
             android:layout_gravity="center"
-            android:src="@drawable/img_psw_bg"
+            android:src="@drawable/psw_dot"
             android:visibility="invisible" />
 
     </FrameLayout>
@@ -173,7 +173,7 @@
             android:layout_width="14dp"
             android:layout_height="14dp"
             android:layout_gravity="center"
-            android:src="@drawable/img_psw_bg"
+            android:src="@drawable/psw_dot"
             android:visibility="invisible" />
 
     </FrameLayout>
@@ -208,7 +208,7 @@
             android:layout_width="14dp"
             android:layout_height="14dp"
             android:layout_gravity="center"
-            android:src="@drawable/img_psw_bg"
+            android:src="@drawable/psw_dot"
             android:visibility="invisible" />
 
     </FrameLayout>
