@@ -129,7 +129,6 @@ public class SharedPrefUtilV2 {
             } catch (Throwable var7) {
                 var7.printStackTrace();
             }
-
         }
     }
 

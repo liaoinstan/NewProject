@@ -17,4 +17,9 @@
         android:orderInCategory="100"
         android:title="contact"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_vector"
+        android:orderInCategory="100"
+        android:title="vector"
+        app:showAsAction="never" />
 </menu>

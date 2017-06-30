@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.google.gson.reflect.TypeToken;
 import com.ins.common.entity.Image;
 import com.ins.common.net.NetApi;
+import com.ins.newproject.app.NewProjectApp;
 import com.ins.newproject.contacts.ui.activity.SortActivity;
 
 import java.util.HashMap;
@@ -34,7 +35,8 @@ public class MainActivity extends AppCompatActivity {
 //        PermissionsUtil.checkAndRequestPermissions(this);
 
         //初始化
-        NetApi.setBaseUrl("http://192.168.1.165:8080/");
+//        NetApi.setBaseUrl("http://192.168.1.165:8080/");
+        Toast.makeText(this, NetApi.getBaseUrl(), Toast.LENGTH_SHORT).show();
 
         text_log = (TextView) findViewById(R.id.text_log);
     }
@@ -67,6 +69,10 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case R.id.action_contact:
                 intent.setClass(this, SortActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.action_vector:
+                intent.setClass(this, VectorActivity.class);
                 startActivity(intent);
                 return true;
         }

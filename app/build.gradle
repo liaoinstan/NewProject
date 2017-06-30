@@ -7,9 +7,11 @@ android {
         applicationId "com.ins.newproject"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 3
-        versionName "1.5"
+        versionCode 4
+        versionName "1.6"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        //使用矢量图兼容库
+        vectorDrawables.useSupportLibrary = true
     }
     //##########################
     //配置keystore签名 start
@@ -56,7 +58,8 @@ dependencies {
     compile project(':common')
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'
-
-    compile 'com.github.promeg:tinypinyin:2.0.3' // TinyPinyin核心包，约80KB
+    compile 'com.github.promeg:tinypinyin:2.0.3'
+    // TinyPinyin核心包，约80KB
     compile 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
+    compile project(':lib_domain')
 }
