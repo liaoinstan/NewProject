@@ -41,7 +41,7 @@ public class VirtualKeyboardView extends RelativeLayout {
 
         this.context = context;
 
-        View view = View.inflate(context, R.layout.layout_virtual_keyboard, null);
+        View view = View.inflate(context, R.layout.keyboard_view, null);
 
         valueList = new ArrayList<>();
 

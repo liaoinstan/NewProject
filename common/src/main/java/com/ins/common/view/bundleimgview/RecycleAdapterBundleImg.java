@@ -44,9 +44,9 @@ public class RecycleAdapterBundleImg extends RecyclerView.Adapter<RecyclerView.V
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         switch (viewType){
             case TYPE_ADD:
-                return new HolderAdd(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_recycle_bundle_add, parent, false));
+                return new HolderAdd(LayoutInflater.from(parent.getContext()).inflate(R.layout.bundle_item_recycle_add, parent, false));
             case TYPE_ITEM:
-                return new HolderItem(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_recycle_bundle, parent, false));
+                return new HolderItem(LayoutInflater.from(parent.getContext()).inflate(R.layout.bundle_item_recycle, parent, false));
             default:
                 Log.d("error","viewholder is null");
                 return null;

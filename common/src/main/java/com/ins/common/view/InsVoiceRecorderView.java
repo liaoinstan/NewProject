@@ -63,7 +63,7 @@ public class InsVoiceRecorderView extends RelativeLayout {
 
     private void init(Context context) {
         this.context = context;
-        LayoutInflater.from(context).inflate(R.layout.ins_widget_voice_recorder, this);
+        LayoutInflater.from(context).inflate(R.layout.voice_recorder, this);
 
         micImage = (ImageView) findViewById(R.id.mic_image);
         recordingHint = (TextView) findViewById(R.id.recording_hint);

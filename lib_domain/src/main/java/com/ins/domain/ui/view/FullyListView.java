@@ -4,6 +4,10 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.ListView;
 
+/**
+ * 不推荐使用，这种重写会导致getView方法被多次调用，影响性能，虽然在UI上看不出变化
+ * 这个module是测试用途，不专注UI效果，为了保持框架简洁不引入其他控件所以还是继续沿用了这种方法
+ */
 public class FullyListView extends ListView {
 	public FullyListView(Context context) {
 		super(context);

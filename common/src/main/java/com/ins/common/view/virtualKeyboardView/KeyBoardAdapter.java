@@ -46,7 +46,7 @@ public class KeyBoardAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder;
         if (convertView == null) {
-            convertView = View.inflate(mContext, R.layout.grid_item_virtual_keyboard, null);
+            convertView = View.inflate(mContext, R.layout.keyboard_item_grid, null);
             viewHolder = new ViewHolder();
             viewHolder.btnKey = (TextView) convertView.findViewById(R.id.btn_keys);
             viewHolder.imgDelete = (RelativeLayout) convertView.findViewById(R.id.imgDelete);
