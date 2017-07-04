@@ -22,4 +22,14 @@
         android:orderInCategory="100"
         android:title="vector"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_seek"
+        android:orderInCategory="100"
+        android:title="seek"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_db"
+        android:orderInCategory="100"
+        android:title="db"
+        app:showAsAction="never" />
 </menu>

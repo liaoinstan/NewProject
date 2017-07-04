@@ -14,8 +14,8 @@ import android.widget.Toast;
 import com.google.gson.reflect.TypeToken;
 import com.ins.common.entity.Image;
 import com.ins.common.net.NetApi;
-import com.ins.newproject.app.NewProjectApp;
 import com.ins.newproject.contacts.ui.activity.SortActivity;
+import com.ins.newproject.db.DBActivity;
 
 import java.util.HashMap;
 import java.util.List;
@@ -73,6 +73,14 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case R.id.action_vector:
                 intent.setClass(this, VectorActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.action_seek:
+                intent.setClass(this, SeekActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.action_db:
+                intent.setClass(this, DBActivity.class);
                 startActivity(intent);
                 return true;
         }
