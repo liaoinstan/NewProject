@@ -9,12 +9,15 @@ import android.support.graphics.drawable.AnimatedVectorDrawableCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ins.newproject.R;
+
+import java.util.List;
 
 public class DBActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -160,6 +163,37 @@ public class DBActivity extends AppCompatActivity implements View.OnClickListene
                 //删除名为test.db数据库
                 deleteDatabase("test_carson");
                 break;
+            case R.id.domian_insert: {
+                DBDomainManager.Domain domain = new DBDomainManager.Domain(2, "www.baidu.com", "insert");
+                DBDomainManager.getInstance(this).insert(domain);
+                break;
+            }
+            case R.id.domian_delete: {
+                DBDomainManager.getInstance(this).delete(1);
+                break;
+            }
+            case R.id.domian_update: {
+                DBDomainManager.Domain domain = new DBDomainManager.Domain(1, "www.baidu.com", "update");
+                DBDomainManager.getInstance(this).update(domain);
+                break;
+            }
+            case R.id.domian_insertOrUpdate: {
+                DBDomainManager.Domain domain = new DBDomainManager.Domain(1, "www.baidu.com", "insertOrUpdate");
+                DBDomainManager.getInstance(this).insertOrUpdate(domain);
+                break;
+            }
+            case R.id.domian_query: {
+                DBDomainManager.Domain domain = DBDomainManager.getInstance(this).query(1);
+                Log.e("liao", domain != null ? domain.toString() : "null");
+                break;
+            }
+            case R.id.domian_queryAll: {
+                List<DBDomainManager.Domain> domains = DBDomainManager.getInstance(this).queryAll();
+                for (DBDomainManager.Domain domain : domains) {
+                    Log.e("liao", domain.toString());
+                }
+                break;
+            }
             default:
                 break;
         }

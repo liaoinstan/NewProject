@@ -24,56 +24,119 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <Button
-            android:id="@+id/instablish"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="创建数据库"/>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/instablish"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="创建数据库" />
 
 
+            <Button
+                android:id="@+id/upgrade"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="更新数据库" />
 
-        <Button
-            android:id="@+id/upgrade"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="更新数据库"/>
+            <Button
+                android:id="@+id/insert"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="插入数据" />
 
-        <Button
-            android:id="@+id/insert"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="插入数据"/>
-
-        <Button
-            android:id="@+id/modify"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="修改数据"/>
-
+            <Button
+                android:id="@+id/modify"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="修改数据" />
 
 
-        <Button
-            android:id="@+id/query"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="查询数据"/>
+            <Button
+                android:id="@+id/query"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="查询数据" />
 
-        <Button
-            android:id="@+id/delete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="删除数据"/>
+            <Button
+                android:id="@+id/delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="删除数据" />
 
 
-        <Button
-            android:id="@+id/delete_database"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="删除数据库"/>
+            <Button
+                android:id="@+id/delete_database"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="删除数据库" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/domian_insert"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onClick"
+                android:text="insert" />
+
+            <Button
+                android:id="@+id/domian_delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onClick"
+                android:text="delete" />
+
+            <Button
+                android:id="@+id/domian_update"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onClick"
+                android:text="update" />
+
+            <Button
+                android:id="@+id/domian_insertOrUpdate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onClick"
+                android:text="insertOrUpdate" />
+
+            <Button
+                android:id="@+id/domian_query"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onClick"
+                android:text="query" />
+
+            <Button
+                android:id="@+id/domian_queryAll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onClick"
+                android:text="queryAll" />
+
+        </LinearLayout>
 
     </LinearLayout>
+
+    <!--* {@link #insert(Domain)}-->
+    <!--* {@link #delete(int)}-->
+    <!--* {@link #update(Domain)}-->
+    <!--* {@link #insertOrUpdate(Domain)}-->
+    <!--* {@link #query(int)}-->
+    <!--* {@link #queryAll()}-->
 
 </android.support.design.widget.CoordinatorLayout>

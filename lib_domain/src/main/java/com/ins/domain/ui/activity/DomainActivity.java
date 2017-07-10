@@ -83,6 +83,7 @@ public class DomainActivity extends AppCompatActivity implements AdapterView.OnI
 
         findViewById(R.id.btn_go).setOnClickListener(this);
         findViewById(R.id.btn_add).setOnClickListener(this);
+        findViewById(R.id.btn_advance).setOnClickListener(this);
     }
 
     private void initData() {
@@ -130,6 +131,8 @@ public class DomainActivity extends AppCompatActivity implements AdapterView.OnI
             }
         } else if (i == R.id.btn_add) {
             popup.showPopupWindow(v);
+        } else if (i == R.id.btn_advance) {
+            AdvanceActivity.start(this);
         }
     }
 
@@ -141,3 +144,4 @@ public class DomainActivity extends AppCompatActivity implements AdapterView.OnI
         return StorageHelper.with(this).getDomains();
     }
 }
+

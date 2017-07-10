@@ -11,6 +11,11 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize"
             android:theme="@style/NoTitleFullscreen" />
+
+        <activity
+            android:name=".ui.activity.AdvanceActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/NoTitleFullscreen" />
     </application>
 
 </manifest>

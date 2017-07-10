@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.support.annotation.NonNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -88,17 +89,13 @@ class DBDomainManager {
     public Domain query(int id) {
         String whereClause = "id=?";
         String[] selectionArgs = new String[]{id + ""};
-        SQLiteDatabase sqLiteDatabase = this.dbDomainHelper.getWritableDatabase();
+        SQLiteDatabase sqLiteDatabase = this.dbDomainHelper.getReadableDatabase();
         try {
             Cursor e = sqLiteDatabase.query(DBDomainHelper.TABLE_NAME, null, whereClause, selectionArgs, null, null, null, null);
-            if (!e.moveToFirst()) {
-                return null;
+            if (e.moveToFirst()) {
+                return getEntityFromCursor(e);
             } else {
-                if (e.moveToNext()) {
-                    return getEntityFromCursor(e);
-                } else {
-                    return null;
-                }
+                return null;
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -110,24 +107,24 @@ class DBDomainManager {
         }
     }
 
-    public List<Domain> queryAll() {
-        SQLiteDatabase sqLiteDatabase = dbDomainHelper.getWritableDatabase();
+    public
+    @NonNull
+    List<Domain> queryAll() {
+        SQLiteDatabase sqLiteDatabase = dbDomainHelper.getReadableDatabase();
         try {
-            ArrayList list = new ArrayList();
+            List<Domain> list = new ArrayList();
             Cursor e = sqLiteDatabase.query(DBDomainHelper.TABLE_NAME, null, null, null, null, null, null);
-            if (e.moveToFirst()) {
-                while (e.moveToNext()) {
-                    Domain ipEntity = this.getEntityFromCursor(e);
-                    if (ipEntity != null) {
-                        list.add(ipEntity);
-                    }
+            while (e.moveToNext()) {
+                Domain ipEntity = this.getEntityFromCursor(e);
+                if (ipEntity != null) {
+                    list.add(ipEntity);
                 }
             }
             e.close();
             return list;
-        } catch (Exception var8) {
-            var8.printStackTrace();
-            return null;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ArrayList();
         } finally {
             if (sqLiteDatabase != null) {
                 sqLiteDatabase.close();
@@ -164,10 +161,10 @@ class DBDomainManager {
     }
 
     private static class DBDomainHelper extends SQLiteOpenHelper {
-        static final String TABLE_NAME = "IpInfo";
+        static final String TABLE_NAME = "t_domain";
         static final String DATABASE_NAME = "domain.db";
         static final int DATABASE_VERSION = 1;
-        static final String CREATE_TABLE_SQL = "CREATE TABLE " + TABLE_NAME + " (id Integer primary key autoincrement, domain text, note text);";
+        static final String CREATE_TABLE_SQL = "CREATE TABLE " + TABLE_NAME + " (id int primary key, domain varchar(256), note varchar(256))";
 
         DBDomainHelper(Context context) {
             this(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -178,12 +175,14 @@ class DBDomainManager {
         }
 
         public void onCreate(SQLiteDatabase db) {
+            System.out.println("创建数据库和表");
             db.execSQL(CREATE_TABLE_SQL);
         }
 
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
             if (newVersion > oldVersion) {
-                //none
+                //更新表操作，如果变结构变化太大又需要保持数据，推荐将数据以对象形式全部查出，删除原表建立新表后再讲数据批量插入
+                //一定要把历史建表语句保存在类里（CREATE_TABLE_SQL1，CREATE_TABLE_SQL2...），否则得不偿失
             }
         }
     }
@@ -224,6 +223,15 @@ class DBDomainManager {
 
         public void setNote(String note) {
             this.note = note;
+        }
+
+        @Override
+        public String toString() {
+            return "Domain{" +
+                    "id=" + id +
+                    ", domain='" + domain + '\'' +
+                    ", note='" + note + '\'' +
+                    '}';
         }
     }
 }
